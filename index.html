@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator</title>
+
+        <!-- CSS style section -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+            box-sizing: border-box;
+        }
+        .container{
+            background: linear-gradient(135deg, #4203a9, #90bafc);
+        }
+        .input-box{
+            background: rgba(255, 255, 255, 0.3);
+        }
+        .input-box ::-webkit-calendar-picker-indicator {
+
+            top: 0; left: 0; right: 0; bottom: 0;
+            width: auto; height: auto;
+            position: absolute;
+            background-position: calc(100% - 10px);
+            background-size: 30px;
+            cursor: pointer;
+        }
+        #result span{
+            color: #fff76f;
+        }
+
+    </style>
+</head>
+            <!-- Body section -->
+<body>
+    <div class="container w-full min-h-screen color text-[#fff] p-[10px]">
+        <div class="calculator w-full max-w-[500px] ml-[10%] mt-[10%]">
+            <h1 class="text-5xl font-semibold">JavaScript <br><span class="text-[#ffff76]">Age calculator</span></h1>
+            <div class="input-box my-5 sm:my-10 p-4 sm:p-9 rounded-[10px] flex itmes-center text-black">
+                <input type="date" id="date" class="flex-1 mr-5 py-3.5 px-5 border-0 outline-0 text-lg rounded-md relative">
+                <button onclick="calculateAge()" class="bg-[#ffff76] border-0 outline-0 px-8 rounded-md">Calculate</button>
+            </div>
+            <p id="result" class="text-lg"></p>
+        </div>
+    </div>
+
+            <!-- Script section -->
+
+    <script>
+        let userInput = document.getElementById("date");
+        userInput.max = new Date().toISOString().split("T")[0];
+        let result = document.getElementById("result");
+
+        function calculateAge(){
+            let birthDate = new Date(userInput.value);
+            let d1 = birthDate.getDate();
+            let m1 = birthDate.getMonth();
+            let y1 = birthDate.getFullYear();
+
+            let today = new Date();
+            let d2 = today.getDate();
+            let m2 = today.getMonth();
+            let y2 = today.getFullYear();
+
+            let d3, m3, y3;
+            // year calculation...!
+            y3 = y2 - y1;
+            // month calculation..!
+            if(m2 >= m1){
+                m3 = m2 - m1;
+            }else{
+                y3--;
+                m3 = 12 + m2 - m1;
+            }
+            // day calculation....!
+            if(d2 >= d1){
+                d3 = d2 - d1;
+            }else{
+                m3--;
+                d3 = getDaysInMonth(y1,m1) + d2 -d1;
+            }
+            if(m3 < 0){
+                m3 = 11;
+                y3--;
+            }
+
+            isNaN(d3) || isNaN(m3) || isNaN(y3)? 
+             alert("Enter the Birthdate..!") : result.innerHTML = `You are <span>${y3}</span> years, 
+             <span>${m3}</span> months and <span>${d3}</span> days old.`;
+        }
+        function getDaysInMonth(year,month){
+            return new Date(year, month, 0).getDate();
+        }
+    </script>
+
+</body>
+</html>
